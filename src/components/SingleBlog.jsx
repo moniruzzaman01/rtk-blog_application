@@ -1,30 +1,36 @@
-import githubImage from "../assets/images/git.webp";
+import PropTypes from "prop-types";
 
-export default function SingleBlog() {
+export default function SingleBlog({ blog }) {
+  const { id, title, createdAt, likes, tags, image, isSaved } = blog || {};
+  const tagContent = tags.map((tag, key) => <span key={key}>#{tag}</span>);
+
   return (
     <div className="lws-card">
-      <a href="post.html">
-        <img src={githubImage} className="lws-card-image" alt="" />
+      <a href={`blog/${id}`}>
+        <img src={image} className="lws-card-image" alt="" />
       </a>
       <div className="p-4">
         <div className="lws-card-header">
-          <p className="lws-publishedDate">2023-05-01</p>
+          <p className="lws-publishedDate">{createdAt}</p>
           <p className="lws-likeCount">
-            <i className="fa-regular fa-thumbs-up"></i>100
+            <i className="fa-regular fa-thumbs-up"></i>
+            {likes}
           </p>
         </div>
-        <a href="post.html" className="lws-postTitle">
-          Top Github Alternatives
+        <a href={`blog/${id}`} className="lws-postTitle">
+          {title}
         </a>
-        <div className="lws-tags">
-          <span>#python,</span> <span>#tech,</span> <span>#git</span>
-        </div>
-        {/* <!-- Show this element if post is saved --> */}
-        <div className="flex gap-2 mt-4">
-          <span className="lws-badge"> Saved </span>
-        </div>
-        {/* <!-- Show this element if post is saved Ends --> */}
+        <div className="lws-tags">{tagContent}</div>
+        {isSaved && (
+          <div className="flex gap-2 mt-4">
+            <span className="lws-badge"> Saved </span>
+          </div>
+        )}
       </div>
     </div>
   );
 }
+
+SingleBlog.propTypes = {
+  blog: PropTypes.object,
+};
