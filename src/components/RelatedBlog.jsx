@@ -1,20 +1,28 @@
-import githubImage from "../assets/images/git.webp";
+import PropTypes from "prop-types";
 
-export default function RelatedBlog() {
+export default function RelatedBlog({ relatedBlog }) {
+  const { id, title, tags, createdAt, image } = relatedBlog || {};
+  const tagContent = tags?.map((tag, key) => <span key={key}>#{tag} </span>);
+
   return (
     <div className="card">
       <a href="post.html">
-        <img src={githubImage} className="card-image" alt="" />
+        <img src={image} className="card-image" alt="" />
       </a>
       <div className="p-4">
-        <a href="post.html" className="text-lg post-title lws-RelatedPostTitle">
-          Top Github Alternatives
+        <a
+          href={`blog/${id}`}
+          className="text-lg post-title lws-RelatedPostTitle"
+        >
+          {title}
         </a>
-        <div className="mb-0 tags">
-          <span>#python,</span> <span>#tech,</span> <span>#git</span>
-        </div>
-        <p>2010-03-27</p>
+        <div className="mb-0 tags">{tagContent}</div>
+        <p>{createdAt}</p>
       </div>
     </div>
   );
 }
+
+RelatedBlog.propTypes = {
+  relatedBlog: PropTypes.object,
+};
