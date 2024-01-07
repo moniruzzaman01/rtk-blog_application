@@ -1,26 +1,8 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { loadBlog } from "../features/blog/BlogSlice";
-import { useParams } from "react-router-dom";
+import PropTypes from "prop-types";
 
-export default function BlogDetails() {
-  const { blogId } = useParams();
-  const dispatch = useDispatch();
-  const { blog, isLoading, isError, error } = useSelector(
-    (state) => state.blog
-  );
+export default function BlogDetails({ blog }) {
   const { image, title, tags, likes, description, isSaved } = blog || {};
   const tagContent = tags?.map((tag, key) => <span key={key}>#{tag} </span>);
-
-  useEffect(() => {
-    dispatch(loadBlog(blogId));
-  }, [dispatch, blogId]);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  } else if (!isLoading && isError) {
-    return <div>{error}</div>;
-  }
 
   return (
     <main className="post">
@@ -58,3 +40,7 @@ export default function BlogDetails() {
     </main>
   );
 }
+
+BlogDetails.propTypes = {
+  blog: PropTypes.object,
+};
