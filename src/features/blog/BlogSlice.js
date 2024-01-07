@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import getBlog from "./BlogAPI";
+import getBlog, { updateIsSaved } from "./BlogAPI";
 
 const initialState = {
   blog: {},
@@ -13,9 +13,25 @@ export const loadBlog = createAsyncThunk("blog/loadBlog", async (id) => {
   return blog;
 });
 
+export const toggleIsSavedToDB = createAsyncThunk(
+  "blog/loadBlog",
+  async ({ id, isSaved }) => {
+    const response = await updateIsSaved(id, isSaved);
+    return response;
+  }
+);
+
 const BlogSlice = createSlice({
   name: "blog",
   initialState,
+  reducers: {
+    increaseLike2: (state) => {
+      state.blog.likes += 1;
+    },
+    toggleIsSaved: (state) => {
+      state.blog.isSaved = !state.blog.isSaved;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(loadBlog.pending, (state) => {
@@ -40,3 +56,4 @@ const BlogSlice = createSlice({
 });
 
 export default BlogSlice.reducer;
+export const { increaseLike2, toggleIsSaved } = BlogSlice.actions;

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import getBlogs from "./BlogsAPI";
+import { getBlogs, updateLikes } from "./BlogsAPI";
 
 const initialState = {
   blogs: [],
@@ -12,10 +12,26 @@ export const loadBlogs = createAsyncThunk("blogs/loadBlogs", async () => {
   const blogs = await getBlogs();
   return blogs;
 });
+export const increaseLikesToDB = createAsyncThunk(
+  "blogs/increaseLikes",
+  async ({ id, likes }) => {
+    const response = await updateLikes(id, likes);
+    return response;
+  }
+);
 
 const BlogsSlice = createSlice({
   name: "blogs",
   initialState,
+  reducers: {
+    increaseLike: (state, action) => {
+      state.blogs.map((blog) => {
+        if (blog.id == action.payload) {
+          blog.likes += 1;
+        }
+      });
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(loadBlogs.pending, (state) => {
@@ -36,7 +52,18 @@ const BlogsSlice = createSlice({
         state.isError = true;
         state.error = action.error.message;
       });
+    builder
+      .addCase(increaseLikesToDB.pending, () => {
+        console.log("pending");
+      })
+      .addCase(increaseLikesToDB.fulfilled, () => {
+        console.log("fulfilled");
+      })
+      .addCase(increaseLikesToDB.rejected, () => {
+        console.log("rejected");
+      });
   },
 });
 
 export default BlogsSlice.reducer;
+export const { increaseLike } = BlogsSlice.actions;

@@ -5,4 +5,9 @@ const getBlog = async (id) => {
   return response.data;
 };
 
+export const updateIsSaved = async (id, isSaved) => {
+  const response = await axiosInstance.patch(`/blogs/${id}`, { isSaved });
+  return response.data;
+};
+
 export default getBlog;

@@ -8,7 +8,6 @@ const getRelatedBlogs = async ({ id, tags }) => {
   if (id) {
     query += `&id_ne=${id}`;
   }
-  console.log(`/blogs${query}`);
   const response = await axiosInstance(`/blogs${query}`);
   return response.data;
 };

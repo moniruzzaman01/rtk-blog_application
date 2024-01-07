@@ -1,9 +1,17 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { increaseLike, increaseLikesToDB } from "../features/blogs/BlogsSlice";
 
 export default function SingleBlog({ blog }) {
+  const dispatch = useDispatch();
   const { id, title, createdAt, likes, tags, image, isSaved } = blog || {};
   const tagContent = tags.map((tag, key) => <span key={key}>#{tag} </span>);
+
+  const handleLikes = () => {
+    dispatch(increaseLike(id));
+    dispatch(increaseLikesToDB({ id, likes: likes + 1 }));
+  };
 
   return (
     <div className="lws-card">
@@ -13,7 +21,7 @@ export default function SingleBlog({ blog }) {
       <div className="p-4">
         <div className="lws-card-header">
           <p className="lws-publishedDate">{createdAt}</p>
-          <p className="lws-likeCount">
+          <p onClick={handleLikes} className="lws-likeCount">
             <i className="fa-regular fa-thumbs-up"></i>
             {likes}
           </p>
