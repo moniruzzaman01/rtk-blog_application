@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 export default function SingleBlog({ blog }) {
   const { id, title, createdAt, likes, tags, image, isSaved } = blog || {};
-  const tagContent = tags.map((tag, key) => <span key={key}>#{tag}</span>);
+  const tagContent = tags.map((tag, key) => <span key={key}>#{tag} </span>);
 
   return (
     <div className="lws-card">
