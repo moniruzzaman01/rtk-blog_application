@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 export default function SingleBlog({ blog }) {
   const { id, title, createdAt, likes, tags, image, isSaved } = blog || {};
@@ -6,9 +7,9 @@ export default function SingleBlog({ blog }) {
 
   return (
     <div className="lws-card">
-      <a href={`blog/${id}`}>
+      <Link to={`blog/${id}`}>
         <img src={image} className="lws-card-image" alt="" />
-      </a>
+      </Link>
       <div className="p-4">
         <div className="lws-card-header">
           <p className="lws-publishedDate">{createdAt}</p>
@@ -17,9 +18,9 @@ export default function SingleBlog({ blog }) {
             {likes}
           </p>
         </div>
-        <a href={`blog/${id}`} className="lws-postTitle">
+        <Link to={`blog/${id}`} className="lws-postTitle">
           {title}
-        </a>
+        </Link>
         <div className="lws-tags">{tagContent}</div>
         {isSaved && (
           <div className="flex gap-2 mt-4">

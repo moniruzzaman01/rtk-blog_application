@@ -3,7 +3,7 @@ import BlogDetails from "../components/BlogDetails";
 import RelatedBlogsContainer from "../components/RelatedBlogsContainer";
 import { useEffect } from "react";
 import { loadBlog } from "../features/blog/BlogSlice";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export default function Blog() {
   const { blogId } = useParams();
@@ -29,13 +29,13 @@ export default function Blog() {
   return (
     <div>
       <div className="container mt-8">
-        <a
-          href="index.html"
+        <Link
+          to="/"
           className="inline-block text-gray-600 home-btn"
           id="lws-goHome"
         >
           <i className="mr-2 fa-solid fa-house"></i>Go Home
-        </a>
+        </Link>
       </div>
       <section className="post-page-container">
         {content}
